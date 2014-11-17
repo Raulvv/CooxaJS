@@ -1,0 +1,25 @@
+/*
+  Place all the styles related to the matching controller here.
+  They will automatically be included in application.css.
+*/
+
+ #editor { 
+        position: absolute;
+        top: 0;
+        left: 30%;
+        font-size: 17px;
+        width: 500px;
+        height: 700px;
+    }
+
+#sitio{
+    	border: solid 1px black;
+    	width:300px;
+    	height:300px;
+    }
+
+#btn-exe{
+	border: solid 1px black;
+	width:150px;
+	height:20px;
+}
