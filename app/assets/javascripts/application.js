@@ -20,14 +20,14 @@ document.getElementById('editor').style.fontSize='16px';
 editor.setTheme("ace/theme/twilight");
 editor.getSession().setMode("ace/mode/javascript");
 
-var sitio = document.getElementById("sitio");
+var exeWindow = document.getElementById("exeWindow");
 
-var boton = document.getElementById("btn-exe");
+var btnExe = document.getElementById("btn-exe");
 
-boton.addEventListener('click', execute, true);
+btnExe.addEventListener('click', execute, true);
 
 function execute(){
-  	sitio.innerHTML = eval(editor.getValue());
+  	exeWindow.innerHTML = eval(editor.getValue());
   	if (TogetherJS.running) {
 	    TogetherJS.send({type: "execute"});
 	}
