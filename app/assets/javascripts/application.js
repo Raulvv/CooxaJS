@@ -27,5 +27,15 @@ var boton = document.getElementById("btn-exe");
 boton.addEventListener('click', execute, true);
 
 function execute(){
-  sitio.innerHTML = eval(editor.getValue());
+  	sitio.innerHTML = eval(editor.getValue());
+  	if (TogetherJS.running) {
+	    TogetherJS.send({type: "execute"});
+	}
 }
+
+TogetherJS.hub.on("execute", function (msg) {
+    if (! msg.sameUrl) {
+        return;
+    }
+    execute();
+});
