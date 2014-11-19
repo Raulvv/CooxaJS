@@ -21,13 +21,25 @@ editor.setTheme("ace/theme/twilight");
 editor.getSession().setMode("ace/mode/javascript");
 
 var exeWindow = document.getElementById("exeWindow");
-
+var errorWindow = document.getElementById("errorWindow");
 var btnExe = document.getElementById("btn-exe");
-
 btnExe.addEventListener('click', execute, true);
 
 function execute(){
-  	exeWindow.innerHTML = eval(editor.getValue());
+	
+  		exeWindow.innerHTML = eval(editor.getValue());
+  		errorWindow.innerHTML = "";
+  		editor.getSession().on("changeAnnotation", function(){
+
+			var annot = editor.getSession().getAnnotations();
+
+			for (var key in annot){
+			    if (annot.hasOwnProperty(key))
+			        errorWindow.innerHTML = annot[key].text + "on line " + " " + annot[key].row;
+			}
+		});
+  	
+
   	if (TogetherJS.running) {
 	    TogetherJS.send({type: "execute"});
 	}
