@@ -25,51 +25,25 @@ var errorWindow = document.getElementById("errorWindow");
 //its not making the changeAnnotation the second time
 editor.getSession().on("changeAnnotation", execute);
 
-	function execute(){
-			try {
-				
-				exeWindow.innerHTML = eval(editor.getValue());
-				
+function execute(){
+	try {
+		exeWindow.innerHTML = eval(editor.getValue());
+		errorWindow.innerHTML = "";
+	} catch(err){
+		var annot = editor.getSession().getAnnotations();
 
-			} catch(err){
-				console.log('error',err);
-				errorWindow.innerHTML = "";
-				var annot = editor.getSession().getAnnotations();
+		for (var key in annot){
+		    if (annot.hasOwnProperty(key)){
+		    	errorWindow.innerHTML = annot[key].text + " Line " + " " + (parseInt(annot[key].row)+1);
+				exeWindow.innerHTML = "";
+		    }
+		}
+	}
 
-				for (var key in annot){
-				    if (annot.hasOwnProperty(key))
-				    	console.log(annot[key].text + "on line " + " " + (parseInt(annot[key].row)+1));
-				        errorWindow.innerHTML = annot[key].text + " Line " + " " + (parseInt(annot[key].row)+1);
-						exeWindow.innerHTML = "";
-				}
-
-			
-			}
-			if (TogetherJS.running) {
-			    TogetherJS.send({type: "execute"});
-			}
-  			
-		};
-
-/*function execute(){
-	
-  		exeWindow.innerHTML = eval(editor.getValue());
-  		errorWindow.innerHTML = "";
-  		editor.getSession().on("changeAnnotation", function(){
-
-			var annot = editor.getSession().getAnnotations();
-
-			for (var key in annot){
-			    if (annot.hasOwnProperty(key))
-			        errorWindow.innerHTML = annot[key].text + "on line " + " " + (parseInt(annot[key].row)+1);
-			}
-		});
-  	
-
-  	if (TogetherJS.running) {
+	if (TogetherJS.running) {
 	    TogetherJS.send({type: "execute"});
 	}
-}*/
+};
 
 TogetherJS.hub.on("execute", function (msg) {
     if (! msg.sameUrl) {
