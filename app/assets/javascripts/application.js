@@ -35,7 +35,7 @@ function execute(){
 
 			for (var key in annot){
 			    if (annot.hasOwnProperty(key))
-			        errorWindow.innerHTML = annot[key].text + "on line " + " " + annot[key].row;
+			        errorWindow.innerHTML = annot[key].text + "on line " + " " + (parseInt(annot[key].row)+1);
 			}
 		});
   	
