@@ -15,8 +15,8 @@ question = Question.create([
 	},
 	{
 		question: 'How to make a Fibonacci serial?',
-		question_code: "var arr = [2, 'comeOn', true, 29, 6, 'only', 'great'];",
-		explanation: "You have to look for the position of the element 'great' on the next array.",
+		question_code: "var num1 = 0;\n var num2 = 1;\n var fibonacci = ''",
+		explanation: "The Fibonacci serial is created by adding the value of the two last numbers.",
 		final_result: '1 1 2 3 5 8 13 21 34 55', 
 	}
 	])
@@ -46,5 +46,25 @@ rule = Rule.create([
 		expression: '\w+\s?[=]\s?true[;]',
 		tip: 'Maybe you have to change the value of the boolean',
 		question_id: 1
+	},
+	{
+		expression: '(while|do.+while|for)',
+		tip: 'Maybe you sould create a loop.',
+		question_id: 2
+	},
+	{
+		expression: '[{]/s+[}]',
+		tip: 'The Fibonacci Serial is make by 3 simple operations, an exchange of values between numbers.',
+		question_id: 2
+	},
+	{
+		expression: 'num2/s?[=]/s?num1',
+		tip: 'The second number has to be like the first one once the actual number is added',
+		question_id: 2
+	},
+	{
+		expression: 'var/snum3',
+		tip: 'Maybe you have to add an additional variable. Search about the buble exchange.',
+		question_id: 2
 	}
 	])

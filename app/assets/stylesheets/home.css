@@ -10,6 +10,7 @@ header{
 
 .execution{
     vertical-align: top;
+    max-width: 524px;
     height: 600px;
     display: inline-block;
     margin-left: 100px;
