@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20141121112428) do
 
   create_table "questions", force: true do |t|
     t.string   "question"
+    t.string   "question_code"
     t.text     "explanation"
     t.string   "final_result"
     t.datetime "created_at"

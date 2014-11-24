@@ -1,24 +1,42 @@
 <header>
-	<h3 id="question"><%= @question.question %></h3>
-	<p><%= @question.explanation %></p>
+	<ul id='acc-menu1'>
+		<%= link_to question_path(@q_search), method: :post, :id => '1' do %>
+		  <span>Search Loop</span>
+		  <%= image_tag("image1.jpg") %>
+		<% end %>
+	   <%= link_to question_path(@q_fibonacci),  method: :post, :id => '2' do %>
+		  <span>Fibonacci</span>
+		  <%= image_tag("image2.jpg") %>
+		<% end %>
+		<%= link_to question_path(@q_search), method: :post, :id => '3' do %>
+		  <span>Like</span>
+		  <%= image_tag("image3.jpg") %>
+		<% end %>
+		<%= link_to question_path(@q_fibonacci),  method: :post, :id => '4' do %>
+		  <span>Like</span>
+		  <%= image_tag("image4.jpg") %>
+		<% end %>
+	</ul>
+	<div class="selectedQuestion">
+		<h3 id="question"><%= @question.question %></h3>
+		<p><%= @question.explanation %></p>
+	</div>
 </header>
 <section class="container">
-	<section class="execution">
-		<section class="windows">
-			<article class="results box" id="expectedResult">
-				The result must be: <span><%= @question.final_result %></span>
-			</article>
-			<article class="results box" id="realResult">
-			</article>
-			<article id="exeWindow">
-				<ul id="tipsOutput"></ul>
-			</article>
-			<article id="errorWindow"></article>
-			<button class="box" id="btn-share" onclick="TogetherJS(this); return false;">Start TogetherJS</button>
-			<button class="box" id="btn-tip" return false;>Wanna tips?</button>
-		</section>
-	</section>
-
 	<div id="editor">'use strict';
-	var arr = [2, 'comeOn', true, 29, 6, 'only', 'great'];</div>
+	<%= @question.question_code %></div>
+
+	<section class="execution">
+		<article class="results box" id="expectedResult">
+			The result must be: <span><%= @question.final_result %></span>
+		</article>
+		<article class="results box" id="realResult">
+		</article>
+		<article id="exeWindow">
+			<ul id="tipsOutput"></ul>
+		</article>
+		<article id="errorWindow"></article>
+		<button class="box" id="btn-share" onclick="TogetherJS(this); return false;">Start TogetherJS</button>
+		<button class="box" id="btn-tip" return false;>Wanna tips?</button>
+	</section>
 </section>

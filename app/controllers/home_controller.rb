@@ -1,15 +1,28 @@
 class HomeController < ApplicationController
 	def index
-		@question = Question.find(1)
+		if params[:id]
+			@question = Question.find(params[:id])
+		else	
+			@question = Question.find(1)
+		end
+		@q_search = Question.first
+		@q_fibonacci = Question.second
+
 		render 'index'
 	end
 
 	def event
+		@question = Question.find(params[:id])
+		puts @question.id
+		redirect_to root_id_path(@question) 
+	end
+
+	def tip_event
 		if request.xhr?
-			@tips = Question.find(1).rules
-			render json: @tips
+			puts "Hola Caracola"
+			render json: @tips = Question.find_by_final_result(request.body.read.to_s).rules
 		else
-			render "error"
+			render 'error'
 		end
 	end
 end

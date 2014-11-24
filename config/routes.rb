@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
 
   root 'home#index'
+  get '/:id' => 'home#index', as: :root_id
 
-  get '/get_tips' => 'home#event'
+  post '/tip' => 'home#tip_event', as: 'tips'
+  post '/get_tips/:id' => 'home#event', as: 'question'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

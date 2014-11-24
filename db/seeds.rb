@@ -9,11 +9,13 @@
 question = Question.create([
 	{
 		question: 'How to make a search loop?',
-		explanation: "You have to look for the position of the element 'great' on the next array.", 
+		question_code: "var arr = [2, 'comeOn', true, 29, 6, 'only', 'great'];",
+		explanation: "You have to look for the position of the element 'great' on the next array.",
 		final_result: '6', 
 	},
 	{
 		question: 'How to make a Fibonacci serial?',
+		question_code: "var arr = [2, 'comeOn', true, 29, 6, 'only', 'great'];",
 		explanation: "You have to look for the position of the element 'great' on the next array.",
 		final_result: '1 1 2 3 5 8 13 21 34 55', 
 	}

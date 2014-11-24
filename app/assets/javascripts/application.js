@@ -26,6 +26,20 @@ var tipList = document.getElementById("tipsOutput");
 var realResult = document.getElementById("realResult");
 editor.getSession().on("changeAnnotation", execute);
 
+var idQuestion;
+var imgClass = document.getElementsByClassName("img");
+
+for(var i=0;i<imgClass.length;i++){
+    imgClass[i].addEventListener('click', function(){console.log(this.id)}, false);
+}
+
+$('#acc-menu1').AccordionImageMenu({
+	  'openDim': 300,
+	  'closeDim': 100,
+	  'fadeInTitle': true,
+	  'position':'horizontal'
+	});
+
 function execute(){
 	try {
 		realResult.innerHTML = "Result: " + eval(editor.getValue());
@@ -54,8 +68,25 @@ function execute(){
 
 document.getElementById("btn-tip").onclick = function (){
 	tipList.innerHTML = "";
+	var fResult = $("#expectedResult span").text()
 
-	$.get( "/get_tips", function( data ) {
+	$.ajax({
+	    type: "POST",
+	    url: "/tip",
+	    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+	    data: fResult,
+	    success: function (data){
+		    for(var i = 0 ; i<data.length ; i++){
+				if (!(RegExp(data[i].expression).test(editor.getValue()))){
+					var li = document.createElement("li");
+					li.appendChild(document.createTextNode(data[i].tip));
+					tipList.appendChild(li);
+				}
+			}
+	    }
+	  })
+
+	/*$.get( "/tip", function( data ) {
 		for(var i = 0 ; i<data.length ; i++){
 			if (!(RegExp(data[i].expression).test(editor.getValue()))){
 				var li = document.createElement("li");
@@ -63,7 +94,7 @@ document.getElementById("btn-tip").onclick = function (){
 				tipList.appendChild(li);
 			}
 		}
-	});
+	});*/
 }
 
 TogetherJS.hub.on("execute", function (msg) {
