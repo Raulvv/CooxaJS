@@ -25,12 +25,14 @@ header{
     left: 1%;
     font-size: 17px;
     width: 50%;
+    max-width: 600px;
     height: 100%;
 }
 
 .windows{
     float: right;
     width: 100%;
+    max-width: 525px;
 }
 
 #exeWindow{
@@ -53,15 +55,14 @@ header{
     margin-bottom: 30px;
 }
 
-#btn-share{
+.box{
     border: solid 1px black;
-    width:290px;
+    width:260px;
     height:50px;
 }
 
-#btn-exe{
-	border: solid 1px black;
-	margin-left: 20px;
-    width:290px;
-	height:50px;
+.results{
+    background-color: white;
+    font-size: 20px;
+    float: right;
 }

@@ -1,16 +1,24 @@
 <header>
-	
+	<h3 id="question"><%= @question.question %></h3>
+	<p><%= @question.explanation %></p>
 </header>
 <section class="container">
 	<section class="execution">
 		<section class="windows">
-			<article id="exeWindow"></article>
+			<article class="results box" id="expectedResult">
+				The result must be: <span><%= @question.final_result %></span>
+			</article>
+			<article class="results box" id="realResult">
+			</article>
+			<article id="exeWindow">
+				<ul id="tipsOutput"></ul>
+			</article>
 			<article id="errorWindow"></article>
-			<button id="btn-share" onclick="TogetherJS(this); return false;">Start TogetherJS</button>
-			<input type="button" value="Execute Now!" id="btn-exe">
+			<button class="box" id="btn-share" onclick="TogetherJS(this); return false;">Start TogetherJS</button>
+			<button class="box" id="btn-tip" return false;>Wanna tips?</button>
 		</section>
 	</section>
 
 	<div id="editor">'use strict';
-	</div>
+	var arr = [2, 'comeOn', true, 29, 6, 'only', 'great'];</div>
 </section>
