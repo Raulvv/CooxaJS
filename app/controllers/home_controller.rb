@@ -13,13 +13,11 @@ class HomeController < ApplicationController
 
 	def event
 		@question = Question.find(params[:id])
-		puts @question.id
 		redirect_to root_id_path(@question) 
 	end
 
 	def tip_event
 		if request.xhr?
-			puts "Hola Caracola"
 			render json: @tips = Question.find_by_final_result(request.body.read.to_s).rules
 		else
 			render 'error'

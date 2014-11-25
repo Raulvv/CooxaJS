@@ -63,7 +63,7 @@ rule = Rule.create([
 		question_id: 2
 	},
 	{
-		expression: 'var/snum3',
+		expression: 'var/s/w+',
 		tip: 'Maybe you have to add an additional variable. Search about the buble exchange.',
 		question_id: 2
 	}

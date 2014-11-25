@@ -85,16 +85,6 @@ document.getElementById("btn-tip").onclick = function (){
 			}
 	    }
 	  })
-
-	/*$.get( "/tip", function( data ) {
-		for(var i = 0 ; i<data.length ; i++){
-			if (!(RegExp(data[i].expression).test(editor.getValue()))){
-				var li = document.createElement("li");
-				li.appendChild(document.createTextNode(data[i].tip));
-				tipList.appendChild(li);
-			}
-		}
-	});*/
 }
 
 TogetherJS.hub.on("execute", function (msg) {
