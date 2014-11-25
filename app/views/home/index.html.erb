@@ -1,20 +1,10 @@
 <header>
 	<ul id='acc-menu1'>
-		<%= link_to question_path(@q_search), method: :post, :id => '1' do %>
-		  <span>Search Loop</span>
-		  <%= image_tag("image1.jpg") %>
-		<% end %>
-	   <%= link_to question_path(@q_fibonacci),  method: :post, :id => '2' do %>
-		  <span>Fibonacci</span>
-		  <%= image_tag("image2.jpg") %>
-		<% end %>
-		<%= link_to question_path(@q_search), method: :post, :id => '3' do %>
-		  <span>Like</span>
-		  <%= image_tag("image3.jpg") %>
-		<% end %>
-		<%= link_to question_path(@q_fibonacci),  method: :post, :id => '4' do %>
-		  <span>Like</span>
-		  <%= image_tag("image4.jpg") %>
+		<%- Question.all.each do |question| %>
+				<%= link_to question_path(question), method: :post, :id => "question_#{question.id}", :data => { :id => question.id } do %>
+				  <span><%= question.question %></span>
+				  <%= image_tag("image#{cycle("1","2")}.jpg") %>
+			<% end %>
 		<% end %>
 	</ul>
 	<div class="selectedQuestion">
