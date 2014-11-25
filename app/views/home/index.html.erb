@@ -1,24 +1,25 @@
 <header>
 	<ul id='acc-menu1'>
 		<%- Question.all.each do |question| %>
-				<%= link_to question_path(question), method: :post, :id => "question_#{question.id}", :data => { :id => question.id } do %>
+				<%= link_to question_path(question), method: :post, class: 'question', id: "question_#{question.id}", data: { :id => question.id } do %>
 				  <span><%= question.question %></span>
 				  <%= image_tag("image#{cycle("1","2")}.jpg") %>
 			<% end %>
 		<% end %>
 	</ul>
 	<div class="selectedQuestion">
-		<h3 id="question"><%= @question.question %></h3>
-		<p><%= @question.explanation %></p>
+		<h3 id="question">Loading...</h3>
+		<p id="explanation">...</p>
 	</div>
 </header>
 <section class="container">
+	<!-- TODO: make this dynamic -->
 	<div id="editor">'use strict';
 	<%= @question.question_code %></div>
 
 	<section class="execution">
 		<article class="results box" id="expectedResult">
-			The results must be: <span><%= @question.final_result %></span>
+			The results must be: <span id="final_result">...</span>
 		</article>
 		<article class="results box" id="realResult">
 		</article>

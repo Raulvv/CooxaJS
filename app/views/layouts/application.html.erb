@@ -6,6 +6,12 @@
   <%= javascript_include_tag 'application', defer: :true %>
 
   <%= csrf_meta_tags %>
+  <% if @question.present? %>
+    <script type="text/javascript">
+      window.app = {}
+      app.currentQuestion = <%= @question.to_json.html_safe %>;
+    </script>
+  <% end %>
 </head>
 <body>
 
