@@ -2,8 +2,8 @@ class HomeController < ApplicationController
 	def index
 		if params[:id]
 			@question = Question.find(params[:id])
-		else	
-			@question = Question.find(1)
+		else
+			@question = Question.first
 		end
 		@q_search = Question.first
 		@q_fibonacci = Question.second

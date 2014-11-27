@@ -44,6 +44,13 @@ header{
     margin-bottom: 30px;
 }
 
+#btn-share{
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    border-radius: 50%;
+}
+
 .box{
     border: solid 1px black;
     width:260px;

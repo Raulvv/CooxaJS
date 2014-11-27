@@ -15,77 +15,142 @@
 //= require_tree .
 //= require_self
 
+// set X-CSRF-Token for all requests
+$.ajaxSetup( {
+  beforeSend: function (xhr) {
+    xhr.setRequestHeader( 'X-CSRF-Token', $('meta[name="csrf-token"]').attr('content') );
+  }
+});
+
 var editor = ace.edit("editor");
 document.getElementById('editor').style.fontSize='16px';
 editor.setTheme("ace/theme/twilight");
 editor.getSession().setMode("ace/mode/javascript");
 
-var exeWindow = document.getElementById("exeWindow");
-var errorWindow = document.getElementById("errorWindow");
-var tipList = document.getElementById("tipsOutput");
-var realResult = document.getElementById("realResult");
-editor.getSession().on("changeAnnotation", execute);
+// Make sure the DOM is loaded
+$(document).ready(function(){
+	/*editor.getSession().on("changeAnnotation", execute);*/
 
-var idQuestion;
-var imgClass = document.getElementsByClassName("img");
+  initAccordion();
+	initQuestion(app.currentQuestion);
+  initQuestionClick();
+  initTips();
+});
 
-for(var i=0;i<imgClass.length;i++){
-    imgClass[i].addEventListener('click', function(){console.log(this.id)}, false);
+initQuestionClick = function(){
+  $('#acc-menu1 a.question').on('click', function(e){
+    // Prevent the native action of the link.
+    e.preventDefault()
+
+    // Similar to $(this) but you are more sure you get the actual link.
+    var element = $(e.currentTarget)
+    // you can get all data attributes with .data('name')
+    var questionId = element.data('id')
+    console.log('question id:', questionId)
+
+    // Here you can fetch the question
+    $.ajax({
+      type: "GET",
+      url: "/questions/" + questionId,
+      error: function(result){
+        console.log('something went wrong', result);
+      },
+      success: function (question){
+        console.log('success!:', question);
+        // Set the global
+        app.currentQuestion = question;
+        // Now set the question
+        initQuestion(app.currentQuestion);
+      }
+    })
+    return false;
+  });
 }
 
-$('#acc-menu1').AccordionImageMenu({
-	  'openDim': 300,
-	  'closeDim': 100,
-	  'fadeInTitle': true,
-	  'position':'horizontal'
-	});
+initAccordion = function(){
+  $('#acc-menu1').AccordionImageMenu({
+    'openDim': 300,
+    'closeDim': 100,
+    'fadeInTitle': true,
+    'position':'horizontal'
+  });
+}
+
+// All the magic happens here
+// The initial question is located in app.currentQuestion. Check the application.html for this.
+initQuestion = function(question){
+	console.log('setQuestion', question)
+	// Set the question details in DOM
+	$('#question').text(question['question'])
+	$('#explanation').text(question['explanation'])
+	$('#final_result').text(question['final_result'])
+}
+
+function hasPassedTest(){
+  var pass = false;
+
+  if (eval(editor.getValue()).toString() === $("#expectedResult span").text())
+    pass = true;
+
+  if (pass === true){
+    for(var i = 0 ; i<app.currentQuestion.rules.length ; i++){
+      var rule = app.currentQuestion.rules[i];
+
+      if(rule.mandatory === true){
+        if(!RegExp(rule.expression).test(editor.getValue())){
+          return false;
+        }
+      }
+    }
+  }
+  return pass;
+}
 
 function execute(){
+	// TODO make use here of app.currentQuestion
+	// You can iterate in app.currentQuestion.rules for the rules of this question.
 	try {
-		realResult.innerHTML = "Result: " + eval(editor.getValue());
+
+    $("#realResult").text("Result: " + eval(editor.getValue()));
 	} catch(err){
 		var annot = editor.getSession().getAnnotations();
 
 		for (var key in annot){
 		    if (annot.hasOwnProperty(key)){
-		    	errorWindow.innerHTML = annot[key].text + " Line " + " " + (parseInt(annot[key].row)+1);
+          $("#errorWindow").text(annot[key].text + " Line " + " " + (parseInt(annot[key].row)+1));
 		    }
 		}
+    return;
 	}
 
-	if (eval(editor.getValue()).toString() === $("#expectedResult span").text()){
+	if (hasPassedTest()){
 		var congrats = "Congratulations!"
-		if(/for[(].+[)]/.test(editor.getValue()) || /do.+while/.test(editor.getValue())){
-			congrats+= " If you use the for loop or the do while loop, its not the better choice. This is because you may don´t need to execute code and with this two loops, you´re doing it."
-		}
 		alert(congrats);
-	}
+	} else {
+    showTips();
+  }
 
 	if (TogetherJS.running) {
 	    TogetherJS.send({type: "execute"});
 	}
 };
 
-document.getElementById("btn-tip").onclick = function (){
-	tipList.innerHTML = "";
-	var fResult = $("#expectedResult span").text()
+initTips = function(){
+  $("#btn-tip").on('click', function(){
+    $("#tipsOutput").empty();
+    var fResult = $("#expectedResult span").text();
 
-	$.ajax({
-	    type: "POST",
-	    url: "/tip",
-	    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-	    data: fResult,
-	    success: function (data){
-		    for(var i = 0 ; i<data.length ; i++){
-				if (!(RegExp(data[i].expression).test(editor.getValue()))){
-					var li = document.createElement("li");
-					li.appendChild(document.createTextNode(data[i].tip));
-					tipList.appendChild(li);
-				}
-			}
-	    }
-	  })
+    for(var i = 0 ; i<app.currentQuestion.rules.length ; i++){
+      if(!(RegExp(app.currentQuestion.rules[i].expression).test(editor.getValue()))){
+        if(app.currentQuestion.rules[i].mandatory === true){
+          console.log('Reg ex not matching and mandatory true',app.currentQuestion.rules[i].hint);
+        }
+        $("#tipsOutput").append("<li>"+app.currentQuestion.rules[i].tip+"</li>");
+      }
+    }
+  })
 }
+
 
 TogetherJS.hub.on("execute", function (msg) {
     if (! msg.sameUrl) {

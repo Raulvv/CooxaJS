@@ -8,7 +8,7 @@
 
 question = Question.create([
 	{
-		question: 'How to make a search loop?',
+		question: 'How to make a search loop with a while?',
 		question_code: "var arr = [2, 'comeOn', true, 29, 6, 'only', 'great'];",
 		explanation: "You have to look for the position of the element 'great' on the next array.",
 		final_result: '6', 
@@ -24,22 +24,24 @@ question = Question.create([
 rule = Rule.create([
 	{
 		expression: 'var\s?\w+\s?[=]\s?\d[;]',
-		tip: 'Maybe you sould create a count variable',
+		tip: 'Maybe you should create a count variable',
 		question_id: 1
 	},
 	{
 		expression: 'var\s?\w+\s?[=]\s?(false|true)',
-		tip: 'Maybe you sould create a boolean variable',
+		tip: 'Maybe you should create a boolean variable',
 		question_id: 1
 	},
 	{
 		expression: 'while[(].+[)]',
-		tip: 'Maybe you sould create a while loop ¡Remember to not create a infinite loop!',
+		tip: 'Maybe you should create a while loop ¡Remember to not create a infinite loop!',
+		mandatory: true,
+		hint: 'If you use the for loop or the do while loop, its not the better choice. This is because you may don´t need to execute code and with this two loops, you´re doing it.',
 		question_id: 1
 	},
 	{
 		expression: 'if',
-		tip: 'Maybe you sould create a conditional',
+		tip: 'Maybe you should create a conditional',
 		question_id: 1
 	},
 	{
@@ -49,7 +51,7 @@ rule = Rule.create([
 	},
 	{
 		expression: '(while|do.+while|for)',
-		tip: 'Maybe you sould create a loop.',
+		tip: 'Maybe you should create a loop.',
 		question_id: 2
 	},
 	{

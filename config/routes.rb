@@ -5,6 +5,9 @@ Rails.application.routes.draw do
 
   post '/tip' => 'home#tip_event', as: 'tips'
   post '/get_tips/:id' => 'home#event', as: 'question'
+
+  resources :questions, only: [:show]
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
