@@ -34,6 +34,7 @@ $(document).ready(function(){
   initAccordion();
 	initQuestion(app.currentQuestion);
   initQuestionClick();
+  initExecution();
   initTips();
 });
 
@@ -76,14 +77,16 @@ initAccordion = function(){
   });
 }
 
-// All the magic happens here
-// The initial question is located in app.currentQuestion. Check the application.html for this.
 initQuestion = function(question){
-	console.log('setQuestion', question)
-	// Set the question details in DOM
-	$('#question').text(question['question'])
-	$('#explanation').text(question['explanation'])
-	$('#final_result').text(question['final_result'])
+	$('#question').text(question['question']);
+	$('#explanation').text(question['explanation']);
+	$('#final_result').text(question['final_result']);
+}
+
+initExecution = function(){
+  $("#btn-exe").on('click', function(){
+    execute();
+  })
 }
 
 function hasPassedTest(){
@@ -107,8 +110,6 @@ function hasPassedTest(){
 }
 
 function execute(){
-	// TODO make use here of app.currentQuestion
-	// You can iterate in app.currentQuestion.rules for the rules of this question.
 	try {
 
     $("#realResult").text("Result: " + eval(editor.getValue()));
@@ -124,10 +125,10 @@ function execute(){
 	}
 
 	if (hasPassedTest()){
-		var congrats = "Congratulations!"
+		var congrats = "Congratulations!";
 		alert(congrats);
 	} else {
-    showTips();
+    initTips();
   }
 
 	if (TogetherJS.running) {
@@ -150,7 +151,6 @@ initTips = function(){
     }
   })
 }
-
 
 TogetherJS.hub.on("execute", function (msg) {
     if (! msg.sameUrl) {
